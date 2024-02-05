@@ -1,6 +1,7 @@
 public class Diccionario {
 
     public Diccionario {
+        //jkjk
 
     }
     public boolean insertar(Object obj) {
