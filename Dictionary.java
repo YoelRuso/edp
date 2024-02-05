@@ -1,8 +1,9 @@
 public class Dictionary {
 
-    public Dictionary {
+    public Dictionary() {
 
     }
+
     public boolean insert(Object obj) {
 
     }
