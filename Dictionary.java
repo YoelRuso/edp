@@ -1,7 +1,20 @@
-public class Dictionary {
+public class Dictionary<K, V> {
+
+    private inputDictionary[] table;
 
     public Dictionary() {
+    }
 
+    private static class inputDictionary {
+        String key;
+        Object value;
+        inputDictionary next;
+
+        inputDictionary(String key, Object value){
+            this.key = key;
+            this.value = value;
+            this.next = null;
+        }
     }
 
     public boolean insert(Object obj) {
