@@ -8,7 +8,9 @@ public class MiDiccionario {
     public MiDiccionario() {
         this.tabla = new EntradaDiccionario[CAPACIDAD_INICIAL];
         this.tamanio = 0;
+
     }
+
 
     public void put(String clave, Object valor) {
         // Asegurar que no exceda el factor de carga
