@@ -33,7 +33,9 @@ public class Dictionary<K, V> {
             listDictionary[index] = null;
             index = (index + 1) % listDictionary.length;
 
+
         }
+        return true;
     }
 
     public V get(K key) {
