@@ -1,6 +1,7 @@
-public class Dictionary {
+public class Dictionary<k,v> {
 
     public Dictionary() {
+
 
     }
 
@@ -16,7 +17,8 @@ public class Dictionary {
 
     }
 
-    public boolean isEmpty() {
+    public boolean isEmpty() {.
+
 
     }
 
