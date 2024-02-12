@@ -13,14 +13,7 @@ public class Dictionary<K, V> {
     }
 
     //método para calcular index
-    private int calculateIndex(K key) {
-        // Función de hash mediante multiplicación
-        double A = 0.6180339887; // Constante áurea
-        double temp = key.hashCode() * A;
-        return (int) Math.floor(listDictionary.length * (temp - Math.floor(temp)));
-    }
-
-    private int funcionHash(K key) {
+   private int calculateIndex(K key) {
         // Implementación de la función hash
         return Math.abs(key.hashCode()) % tamanio;
     }
