@@ -1,29 +1,40 @@
 public class Dictionary<K, V> {
 
-    private inputDictionary[] table;
+    private K key;
+    private V value;
 
-    public Dictionary() {
+    private Pair<K,V> pair;
+    private Pair<K, V>[] listDictionary;
+
+    public Dictionary(K key, V value, Pair[] listDictionary) {
+        this.key = key;
+        this.value = value;
+        this.listDictionary = listDictionary;
     }
 
-    //clase inputDictionary
-    private static class inputDictionary {
-        String key;
-        Object value;
-        inputDictionary next;
-
-        inputDictionary(String key, Object value){
-            this.key = key;
-            this.value = value;
-            this.next = null;
-        }
+    private int calculateIndex(K key) {
+        // Función de hash mediante multiplicación
+        double A = 0.6180339887; // Constante áurea
+        double temp = key.hashCode() * A;
+        return (int) Math.floor(listDictionary.length * (temp - Math.floor(temp)));
     }
 
     public boolean insert(Object obj) {
-        return true;
+        int index = calculateIndex(key);
+        listDictionary[index] = new Pair<K,V>(key, value);
     }
 
-    public boolean remove(Object obj) {
-        return true;
+
+    // Este metodo simplemente elimina el valor especificado por parametro
+    public boolean remove(K key) {
+        int index = calculateIndex(key);
+
+        while (listDictionary[index] != null && !listDictionary[index].getKey().equals(key)) {
+            listDictionary[index] = null;
+            index = (index + 1) % listDictionary.length;
+
+        }
+
     }
 
     public Object get(Object obj) {
