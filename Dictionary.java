@@ -20,6 +20,11 @@ public class Dictionary<K, V> {
         return (int) Math.floor(listDictionary.length * (temp - Math.floor(temp)));
     }
 
+    private int funcionHash(K key) {
+        // Implementación de la función hash
+        return Math.abs(key.hashCode()) % tamanio;
+    }
+
     //método para insertar
     public boolean insert(Object obj) {
         int index = calculateIndex(key);
