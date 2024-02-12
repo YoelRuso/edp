@@ -12,6 +12,7 @@ public class Dictionary<K, V> {
         this.listDictionary = listDictionary;
     }
 
+    //método para calcular index
     private int calculateIndex(K key) {
         // Función de hash mediante multiplicación
         double A = 0.6180339887; // Constante áurea
@@ -19,6 +20,7 @@ public class Dictionary<K, V> {
         return (int) Math.floor(listDictionary.length * (temp - Math.floor(temp)));
     }
 
+    //método para insertar
     public boolean insert(Object obj) {
         int index = calculateIndex(key);
         listDictionary[index] = new Pair<K,V>(key, value);
