@@ -5,6 +5,7 @@ public class Dictionary<K, V> {
     public Dictionary() {
     }
 
+    //clase inputDictionary
     private static class inputDictionary {
         String key;
         Object value;
