@@ -9,13 +9,13 @@ public class Dictionary<K, V> {
     public Dictionary(K key, V value, Pair[] listDictionary) {
         this.key = key;
         this.value = value;
-        this.listDictionary = listDictionary;
+        this.listDictionary = new Pair[8];
     }
 
     //método para calcular index
    private int calculateIndex(K key) {
         // Implementación de la función hash
-        return Math.abs(key.hashCode()) % tamanio;
+        return Math.abs(key.hashCode()) % listDictionary.length;
     }
 
     //método para insertar
@@ -34,15 +34,20 @@ public class Dictionary<K, V> {
             index = (index + 1) % listDictionary.length;
 
         }
-
     }
 
-    public Object get(Object obj) {
-        return null;
+    public V get(K key) {
+        int index = calculateIndex(key);
+
+        while (listDictionary[index] != null && !listDictionary[index].getKey().equals(key)) {
+            index = (index + 1) % listDictionary.length;
+
+        }
+        return listDictionary[index].getValue();
     }
 
     public boolean isEmpty() {
-        return true;
+        return listDictionary == null;
     }
 
     public Object[] values() {
