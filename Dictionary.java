@@ -3,10 +3,9 @@ public class Dictionary<K, V> {
     private K key;
     private V value;
 
-    private Pair<K,V> pair;
     private Pair<K, V>[] listDictionary;
 
-    public Dictionary(K key, V value, Pair[] listDictionary) {
+    public Dictionary(K key, V value) {
         this.key = key;
         this.value = value;
         this.listDictionary = new Pair[8];
@@ -19,9 +18,10 @@ public class Dictionary<K, V> {
     }
 
     //método para insertar
-    public boolean insert(Object obj) {
+    public boolean insert(K key, V value) {
         int index = calculateIndex(key);
         listDictionary[index] = new Pair<K,V>(key, value);
+        return true;
     }
 
 
@@ -42,6 +42,10 @@ public class Dictionary<K, V> {
         int index = calculateIndex(key);
 
         while (listDictionary[index] != null && !listDictionary[index].getKey().equals(key)) {
+            if (listDictionary[index] == null) {
+                System.out.println("Valor no encontrado");
+                break;
+            }
             index = (index + 1) % listDictionary.length;
 
         }
