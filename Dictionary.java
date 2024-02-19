@@ -3,15 +3,16 @@ import java.util.Arrays;
 
 public class Dictionary<K, V> {
 
-    private K key;
-    private V value;
     private ArrayList<V> pairArrayList = new ArrayList<>();
 
     private Pair<K, V>[] listDictionary;
 
     public Dictionary(K key, V value) {
-        this.key = key;
-        this.value = value;
+        this.listDictionary = new Pair[8];
+        insert(key, value);
+    }
+
+    public Dictionary() {
         this.listDictionary = new Pair[8];
     }
 
@@ -25,9 +26,9 @@ public class Dictionary<K, V> {
     public boolean insert(K key, V value) {
         int index = calculateIndex(key);
         while (listDictionary[index] != null) {
-            listDictionary[index] = new Pair<K,V>(key, value);
             index = (index + 1) % listDictionary.length;
         }
+        listDictionary[index] = new Pair<K,V>(key, value);
 
         return true;
     }
@@ -61,7 +62,12 @@ public class Dictionary<K, V> {
     }
 
     public boolean isEmpty() {
-        return listDictionary == null;
+        for (int i = 0; listDictionary.length > i; i++) {
+            if (listDictionary[i] != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public ArrayList<V> values() {
@@ -74,7 +80,10 @@ public class Dictionary<K, V> {
         return pairArrayList;
     }
 
-    public void popItem() {
+    public Pair<K, V> popItem() {
+        int last = listDictionary.length;
+        listDictionary[last - 1] = null;
+        return listDictionary[last - 1];
     }
 
     public void update(K key, V value){
