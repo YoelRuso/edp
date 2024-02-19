@@ -25,6 +25,7 @@ public class Dictionary<K, V> {
     //método para insertar
     public boolean insert(K key, V value) {
         int index = calculateIndex(key);
+        System.out.println(index);
         while (listDictionary[index] != null) {
             index = (index + 1) % listDictionary.length;
         }

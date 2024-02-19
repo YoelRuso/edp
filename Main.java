@@ -1,7 +1,7 @@
 public class Main {
 
     public static void main(String[] args) {
-        Dictionary dict = new Dictionary("test0", 0);
+        Dictionary dict = new Dictionary();
 
         System.out.println(dict.isEmpty());
         dict.insert("test1", 1);
