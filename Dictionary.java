@@ -1,7 +1,11 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Dictionary<K, V> {
 
     private K key;
     private V value;
+    private ArrayList<V> pairArrayList = new ArrayList<>();
 
     private Pair<K, V>[] listDictionary;
 
@@ -20,7 +24,10 @@ public class Dictionary<K, V> {
     //método para insertar
     public boolean insert(K key, V value) {
         int index = calculateIndex(key);
-        listDictionary[index] = new Pair<K,V>(key, value);
+        while (listDictionary[index] != null) {
+            listDictionary[index] = new Pair<K,V>(key, value);
+            index = (index + 1) % listDictionary.length;
+        }
         return true;
     }
 
@@ -56,14 +63,24 @@ public class Dictionary<K, V> {
         return listDictionary == null;
     }
 
-    public Object[] values() {
-        return null;
+    public ArrayList<V> values() {
+        pairArrayList.clear(); // Clear the list to avoid duplicates on subsequent calls.
+        for (Pair<K, V> pair : listDictionary) {
+            if (pair != null) {
+                pairArrayList.add(pair.getValue());
+            }
+        }
+        return pairArrayList;
     }
 
     public boolean popItem() {
         return true;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Dictionary{" +
+                "listDictionary=" + Arrays.toString(listDictionary) +
+                '}';
+    }
 }
