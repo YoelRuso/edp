@@ -73,8 +73,24 @@ public class Dictionary<K, V> {
         return pairArrayList;
     }
 
-    public boolean popItem() {
-        return true;
+    public void popItem() {
+    }
+
+    public void update(K key, V value){
+        int index = calculateIndex(key);
+
+        while (listDictionary[index] != null && !listDictionary[index].getKey().equals(key)) {
+            index = (index + 1) % listDictionary.length;
+        }
+
+        // Comprobamos si el elemento se encuentra dentro del diccionario
+        if (listDictionary[index].getKey().equals(key)) {
+            // Si está dentro, solo se actualiza el value
+            listDictionary[index] = new Pair<>(key, value);
+        } else {
+            // Si la clave no se encuentra, se añadirá al final del diccionario
+            insert(key, value);
+        }
     }
 
     @Override
