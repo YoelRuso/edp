@@ -1,3 +1,5 @@
+import test.Dict;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -29,5 +31,17 @@ public class Main {
         System.out.println(dict.values());
 
         System.out.println(dict);
+
+        // TEst
+        System.out.println("----------------------");
+        Dict<String, Integer> d = new Dict<>();
+        d.add("Test", 123);
+
+        System.out.println(d.get("Test"));
+        System.out.println(d.get("sdsd"));
+        System.out.println();
+        d.debug();
+        System.out.println("Keys: " + d.keys());
+        System.out.println("Keys: " + d.values());
     }
 }
