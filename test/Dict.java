@@ -20,10 +20,18 @@ public class Dict<K, V> {
         // TODO: resize
         int pos = hash(key);
         while (indices[pos] != -1) {
+            // Check if repeated
+            if (indices[pos] != -2) {
+                Pair<K, V> pair = (Pair<K, V>) entries[indices[pos]];
+                if (pair.getKey() == key) {
+                    pair.setValue(value);
+                    return;
+                }
+            }
             pos++;
         }
         // TODO: CHeck if repeated
-        entries[lastPos] = new Pair<K, V>(key, value);
+        entries[lastPos] = new Pair<>(key, value);
 
         indices[pos] = lastPos;
         lastPos++;

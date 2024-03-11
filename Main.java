@@ -36,6 +36,9 @@ public class Main {
         System.out.println("----------------------");
         Dict<String, Integer> d = new Dict<>();
         d.add("Test", 123);
+        d.add("Other", 13);
+        d.add("dsf", 324);
+        d.add("Test", 321);
 
         System.out.println(d.get("Test"));
         System.out.println(d.get("sdsd"));
