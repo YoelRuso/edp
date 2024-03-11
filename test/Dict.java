@@ -49,6 +49,22 @@ public class Dict<K, V> {
         }
         return pair.getValue();
     }
+
+    public void remove(K key) {
+        int pos = hash(key);
+        while (indices[pos] != -1 && pos < size) {
+            if (indices[pos] != -2) {
+                Pair<K, V> pair = (Pair<K, V>) entries[indices[pos]];
+                if (pair.getKey() == key) {
+                    entries[indices[pos]] = null;
+                    indices[pos] = -2;
+                    return;
+
+                }
+            }
+            pos++;
+        }
+    }
     public Collection<K> keys() {
         ArrayList<K> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {

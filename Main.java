@@ -1,4 +1,7 @@
 import test.Dict;
+import test.Pair;
+
+import java.util.Arrays;
 
 public class Main {
 
@@ -39,12 +42,24 @@ public class Main {
         d.add("Other", 13);
         d.add("dsf", 324);
         d.add("Test", 321);
-
+        d.remove("dsf");
         System.out.println(d.get("Test"));
         System.out.println(d.get("sdsd"));
         System.out.println();
         d.debug();
         System.out.println("Keys: " + d.keys());
         System.out.println("Keys: " + d.values());
+
+        Pair<String, Integer>[] pair = new Pair[8];
+        pair[3] = new Pair<>("sdsd", 1323);
+        pair[6] = new Pair<>("askdfj", 2323);
+        Pair<String, Integer> p = pair[3];
+        p = null;
+
+        Pair<String, Integer> o = pair[6];
+        o.setValue(0123333);
+
+
+        System.out.println(Arrays.toString(pair));
     }
 }
