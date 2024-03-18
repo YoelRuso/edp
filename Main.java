@@ -3,38 +3,11 @@ import test.Pair;
 
 import java.util.Arrays;
 
+import java.sql.SQLOutput;
+
 public class Main {
 
     public static void main(String[] args) {
-        Dictionary dict = new Dictionary("test0", 0);
-
-        System.out.println(dict.isEmpty());
-        dict.insert("test1", "1");
-        System.out.println(dict.values());
-        dict.insert("test2", 2);
-        System.out.println(dict.values());
-        dict.insert("test3", 3);
-        System.out.println(dict.values());
-        dict.insert("test4", 4);
-        System.out.println(dict.values());
-        dict.insert("test5", 5);
-        System.out.println(dict.values());
-        dict.insert("test6", 6);
-        System.out.println(dict.values());
-        dict.insert("test7", 7);
-        System.out.println(dict.values());
-        dict.insert("test8", 8);
-        dict.remove("test3");
-        System.out.println(dict.values());
-        System.out.println(dict.isEmpty());
-        System.out.println(dict.get("test6"));
-        dict.update("test1", 3);
-        System.out.println(dict.values());
-        dict.popItem();
-        System.out.println(dict.values());
-
-        System.out.println(dict);
-
         // TEst
         System.out.println("----------------------");
         Dict<String, Integer> d = new Dict<>();
@@ -51,13 +24,49 @@ public class Main {
         System.out.println("Keys: " + d.values());
 
         Pair<String, Integer>[] pair = new Pair[8];
-        pair[3] = new Pair<>("sdsd", 1323);
-        pair[6] = new Pair<>("askdfj", 2323);
+        pair[3] = new Pair<>("pair3", 1323);
+        pair[6] = new Pair<>("pair6", 2323);
         Pair<String, Integer> p = pair[3];
         p = null;
 
         Pair<String, Integer> o = pair[6];
         o.setValue(0123333);
+
+        // Crear un diccionario
+        Dictionary<String, Integer> dictionary = new Dictionary<>();
+
+        // Agregar elementos
+        dictionary.add("uno", 1);
+        dictionary.add("dos", 2);
+        dictionary.add("tres", 3);
+        dictionary.add("cuatro", 4);
+
+        // Prueba de get
+        System.out.println(dictionary.get("dos")); // Debería imprimir 2
+        System.out.println(dictionary.get("cinco")); // Debería imprimir null
+
+        // Prueba de remove
+        dictionary.remove("dos");
+        System.out.println(dictionary.get("dos")); // Debería imprimir null
+
+        // Prueba de keys
+        System.out.println(dictionary.keys()); // Debería imprimir [uno, tres, cuatro]
+
+        // Prueba de values
+        System.out.println(dictionary.values()); // Debería imprimir [1, 3, 4]
+
+        // Prueba de isEmpty
+        System.out.println(dictionary.isEmpty()); // Debería imprimir false
+
+        // Prueba de popItem
+        System.out.println(dictionary.popItem()); // Debería imprimir true
+        System.out.println(dictionary.popItem()); // Debería imprimir true
+        System.out.println(dictionary.popItem()); // Debería imprimir true
+        System.out.println(dictionary.popItem()); // Debería imprimir true
+        System.out.println(dictionary.popItem()); // Debería imprimir false
+
+        // Prueba de isEmpty después de popItem
+        System.out.println(dictionary.isEmpty()); // Debería imprimir true
 
 
         System.out.println(Arrays.toString(pair));
