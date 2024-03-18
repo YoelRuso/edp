@@ -88,17 +88,22 @@ public class Dictionary<K, V> {
         return key.hashCode() % size;
     }
 
-    public void debug() {
-        System.out.println(Arrays.toString(indices));
-        System.out.println("[");
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("{");
+        boolean first = true;
         for (int i = 0; i < size; i++) {
-            if (entries[i] == null) {
-                System.out.println(i + ": ---");
-            } else {
-                System.out.println(i + ": " + entries[i].toString()+ ", ");
+            if (entries[i] != null) {
+                Pair<K, V> pair = (Pair<K, V>) entries[i];
+                if (!first) {
+                    sb.append(", ");
+                }
+                sb.append(pair.getKey()).append(": ").append(pair.getValue());
+                first = false;
             }
         }
-        System.out.println("]");
+        sb.append("}");
+        return sb.toString();
     }
 
     public boolean isEmpty() {
