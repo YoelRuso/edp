@@ -16,6 +16,7 @@ public class Dict<K, V> {
         entries = new Object[size];
     }
 
+
     public void add(K key, V value) {
         // TODO: resize
         int pos = hash(key);
@@ -59,7 +60,6 @@ public class Dict<K, V> {
                     entries[indices[pos]] = null;
                     indices[pos] = -2;
                     return;
-
                 }
             }
             pos++;
