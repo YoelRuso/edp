@@ -6,43 +6,38 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-        // TEst
-        System.out.println("----------------------");
-        DictRE<String, Integer> d = new DictRE<>();
-        d.add("Test", 123);
-        d.add("Other", 13);
-        d.add("dsf", 324);
-        d.add("Test", 321);
-        d.remove("dsf");
-        System.out.println(d.get("Test"));
-        System.out.println(d.get("sdsd"));
-        System.out.println();
-        d.debug();
-        System.out.println("Keys: " + d.keys());
-        System.out.println("Keys: " + d.values());
-        int lastPos = 7;
-        int size = 8;
-        System.out.println((double) lastPos / size );
-        System.out.println("----------------------");
-        DictRE<String, Integer> sd = new DictRE<>();
-        sd.add("Test", 123);
-        sd.add("Other", 13);
-        sd.add("dsf", 324);
-        sd.add("Test", 321);
-        sd.add("asdas", 321);
-        sd.add("Teasd", 321);
-        sd.add("Testddaddsas", 321);
-        sd.add("Testddadd", 321);
-        sd.add("Testddaddsasd", 321);
-        System.out.println(sd.get("Test"));
-        System.out.println(sd.get("sdsd"));
-        System.out.println();
-        sd.debug();
-        System.out.println("Keys: " + sd.keys());
-        System.out.println("Keys: " + sd.values());
+        // Crear una instancia de DictRE
+        DictRE<String, Integer> dict = new DictRE<>();
 
-        int[] a = {1, 4, 1};
-        System.out.println(Arrays.toString(a));
-        System.out.println(sd);
+        // Añadir elementos
+        dict.add("one", 1);
+        dict.add("two", 2);
+        dict.add("three", 3);
+        dict.add("four", 4);
+        dict.add("five", 5);
+
+        // Mostrar el contenido del diccionario
+        System.out.println("Contenido del diccionario:");
+        System.out.println(dict);
+
+        // Obtener un valor
+        System.out.println("Valor asociado a 'three': " + dict.get("three"));
+
+        // Eliminar un elemento
+        dict.remove("four");
+        System.out.println("Contenido del diccionario después de eliminar 'four':");
+        System.out.println(dict);
+
+        // Obtener todas las claves
+        System.out.println("Claves del diccionario:");
+        System.out.println(dict.keys());
+
+        // Obtener todos los valores
+        System.out.println("Valores del diccionario:");
+        System.out.println(dict.values());
+
+        // Mostrar información de depuración
+        System.out.println("Información de depuración:");
+        dict.debug();
     }
 }
