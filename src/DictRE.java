@@ -86,13 +86,14 @@ public class DictRE<K, V> {
         for (int i = 0; i < size; i++) {
             if (entries[i] != null) {
                 newEntries[i] = entries[i];
-
                 Pair<K, V> pair = entries[i];
-                int pos = pair.getHashcode() % newSize;
-                while (newIndices[pos] != -1) {
+                int pos = pair.getHashcode() & (newSize - 1);
+                while (newIndices[pos % newSize] != -1) {
                     pos++;
+                    System.out.println("Before: " + pos % newSize);
                 }
-                newIndices[pos] = i;
+                System.out.println("After: " + pos % newSize);
+                newIndices[pos % newSize] = i;
             }
         }
         entries = newEntries;
