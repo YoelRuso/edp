@@ -87,17 +87,13 @@ public class DictRE<K, V> {
             if (entries[i] != null) {
                 newEntries[i] = entries[i];
                 Pair<K, V> pair = entries[i];
-                int pos = pair.getHashcode() % newSize;
-                System.out.println("New size: " + newSize);
-                System.out.println("Before before: " + pos);
-                System.out.println("Should " + Math.floorMod(pair.getHashcode(), newSize));
-                System.out.println("Other: " + Math.abs(pair.getHashcode()) % newSize);
-                while (newIndices[pos & (newSize - 1)] != -1) {
+                int pos = pair.getHashcode() & (newSize - 1);
+                while (newIndices[pos % newSize] != -1) {
                     pos++;
                     System.out.println("Before: " + pos % newSize);
                 }
                 System.out.println("After: " + pos % newSize);
-                newIndices[pos & (newSize - 1)] = i;
+                newIndices[pos % newSize] = i;
             }
         }
         entries = newEntries;
