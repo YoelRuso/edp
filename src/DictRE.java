@@ -24,8 +24,12 @@ public class DictRE<K, V> {
         entries = (Pair<K, V>[]) new Pair[size];
     }
     public void add(K key, V value) {
-        if ((double) lastPos / size > LOAD_FACTOR) {
-           resize();
+        System.out.println((double) lastPos / size);
+        System.out.println(lastPos);
+        System.out.println(size);
+        if ((double) lastPos / size >= LOAD_FACTOR) {
+            System.out.println("Here----------");
+            resize();
         }
         int hashcode = key.hashCode();
         int pos = find(hashcode % size, key);
@@ -64,10 +68,26 @@ public class DictRE<K, V> {
         return start;
     }
     public void resize() {
+        int newSize = size * 2;
         // TODO
         // fill holes
         // Save hashcode in Pair (avoids having to recalculate)
+        Pair<K, V>[] newEntries = new Pair[newSize];
+        int[] newIndices = new int[newSize];
+        Arrays.fill(newIndices, -1);
+        for (int i = 0; i < size; i++) {
+            if (entries[i] != null) {
+                newEntries[i] = entries[i];
 
+                Pair<K, V> pair = entries[i];
+                int pos = pair.getHashcode() % newSize;
+                while (newIndices[pos] != -1) {
+                    pos++;
+                }
+                newIndices[pos] = i;
+            }
+        }
+        size = newSize;
     }
 
     public int hash(K key) {
