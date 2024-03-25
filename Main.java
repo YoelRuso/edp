@@ -6,38 +6,9 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-        Dictionary dict = new Dictionary("test0", 0);
-
-        System.out.println(dict.isEmpty());
-        dict.insert("test1", "1");
-        System.out.println(dict.values());
-        dict.insert("test2", 2);
-        System.out.println(dict.values());
-        dict.insert("test3", 3);
-        System.out.println(dict.values());
-        dict.insert("test4", 4);
-        System.out.println(dict.values());
-        dict.insert("test5", 5);
-        System.out.println(dict.values());
-        dict.insert("test6", 6);
-        System.out.println(dict.values());
-        dict.insert("test7", 7);
-        System.out.println(dict.values());
-        dict.insert("test8", 8);
-        dict.remove("test3");
-        System.out.println(dict.values());
-        System.out.println(dict.isEmpty());
-        System.out.println(dict.get("test6"));
-        dict.update("test1", 3);
-        System.out.println(dict.values());
-        dict.popItem();
-        System.out.println(dict.values());
-
-        System.out.println(dict);
-
         // TEst
         System.out.println("----------------------");
-        DictOA<String, Integer> d = new DictOA<>();
+        DictRE<String, Integer> d = new DictRE<>();
         d.add("Test", 123);
         d.add("Other", 13);
         d.add("dsf", 324);
@@ -49,14 +20,20 @@ public class Main {
         d.debug();
         System.out.println("Keys: " + d.keys());
         System.out.println("Keys: " + d.values());
-
+        int lastPos = 7;
+        int size = 8;
+        System.out.println((double) lastPos / size );
         System.out.println("----------------------");
         DictRE<String, Integer> sd = new DictRE<>();
         sd.add("Test", 123);
         sd.add("Other", 13);
         sd.add("dsf", 324);
         sd.add("Test", 321);
-        sd.remove("dsf");
+        sd.add("asdas", 321);
+        sd.add("Teasd", 321);
+        sd.add("Testddaddsas", 321);
+        sd.add("Testddadd", 321);
+        sd.add("Testddaddsasd", 321);
         System.out.println(sd.get("Test"));
         System.out.println(sd.get("sdsd"));
         System.out.println();
