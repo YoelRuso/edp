@@ -1,8 +1,7 @@
 package src;
-// dict remake
+
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class DictRE<K, V> {
@@ -24,11 +23,7 @@ public class DictRE<K, V> {
         entries = (Pair<K, V>[]) new Pair[size];
     }
     public void add(K key, V value) {
-        System.out.println((double) lastPos / size);
-        System.out.println(lastPos);
-        System.out.println(size);
         if ((double) lastPos / size >= LOAD_FACTOR) {
-            System.out.println("Here----------");
             resize();
         }
         int hashcode = key.hashCode();
@@ -64,7 +59,7 @@ public class DictRE<K, V> {
     private int find(int start, K key) {
         // TODO: full circle
         while (indices[start] != -1) {
-            if (indices[start] != -2 && entries[indices[start]].getKey().equals(key)) {
+            if (indices[start] != -2  && entries[indices[start]].getKey().equals(key)) {
                 break;
             }
             start++;
@@ -90,9 +85,7 @@ public class DictRE<K, V> {
                 int pos = pair.getHashcode() & (newSize - 1);
                 while (newIndices[pos % newSize] != -1) {
                     pos++;
-                    System.out.println("Before: " + pos % newSize);
                 }
-                System.out.println("After: " + pos % newSize);
                 newIndices[pos % newSize] = i;
             }
         }
@@ -107,8 +100,17 @@ public class DictRE<K, V> {
 
     public Pair<K, V> popItem() {
         // check if last is null
+        while (lastPos >= 0 && entries[lastPos] == null) {
+            lastPos--;
+        }
+        if (lastPos < 0) {
+            return null;
+        }
+        int pos = find(hash(entries[lastPos].getKey()) & (size - 1), entries[lastPos].getKey());
+        indices[pos] = -2;
         Pair<K, V> pair = entries[lastPos];
         entries[lastPos] = null;
+        lastPos++;
         return pair;
     }
 
