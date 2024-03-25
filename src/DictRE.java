@@ -64,7 +64,7 @@ public class DictRE<K, V> {
     private int find(int start, K key) {
         // TODO: full circle
         while (indices[start] != -1) {
-            if (entries[indices[start]].getKey().equals(key)) {
+            if (indices[start] != -2 && entries[indices[start]].getKey().equals(key)) {
                 break;
             }
             start++;
