@@ -1,16 +1,17 @@
-package test;
-
+package src;
+// open addressing
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class Dict<K, V> {
+public class DictOA<K, V> {
     private int size = 8;
     private int[] indices;
     private Object[] entries;
     private int lastPos = 0;
+    private double LOAD_FACTOR = 0.75;
 
-    public Dict() {
+    public DictOA() {
         indices = new int[size];
         Arrays.fill(indices, -1);
         entries = new Object[size];
@@ -18,6 +19,9 @@ public class Dict<K, V> {
 
     public void add(K key, V value) {
         // TODO: resize
+        if ((double) lastPos / size > LOAD_FACTOR) {
+
+        }
         int pos = hash(key);
         while (indices[pos] != -1) {
             // Check if repeated
@@ -30,8 +34,7 @@ public class Dict<K, V> {
             }
             pos++;
         }
-        // TODO: CHeck if repeated
-        entries[lastPos] = new Pair<>(key, value);
+        entries[lastPos] = new Pair2<>(key, value);
 
         indices[pos] = lastPos;
         lastPos++;
@@ -49,12 +52,11 @@ public class Dict<K, V> {
         }
         return pair.getValue();
     }
-
     public void remove(K key) {
         int pos = hash(key);
         while (indices[pos] != -1 && pos < size) {
             if (indices[pos] != -2) {
-                Pair<K, V> pair = (Pair<K, V>) entries[indices[pos]];
+                Pair2<K, V> pair = (Pair2<K, V>) entries[indices[pos]];
                 if (pair.getKey() == key) {
                     entries[indices[pos]] = null;
                     indices[pos] = -2;
@@ -69,7 +71,7 @@ public class Dict<K, V> {
         ArrayList<K> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             if (entries[i] != null) {
-                Pair<K, V> pair = (Pair<K, V>) entries[i];
+                Pair2<K, V> pair = (Pair2<K, V>) entries[i];
                 list.add(pair.getKey());
             }
         }
@@ -80,7 +82,7 @@ public class Dict<K, V> {
         ArrayList<V> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             if (entries[i] != null) {
-                Pair<K, V> pair = (Pair<K, V>) entries[i];
+                Pair2<K, V> pair = (Pair2<K, V>) entries[i];
                 list.add(pair.getValue());
             }
         }

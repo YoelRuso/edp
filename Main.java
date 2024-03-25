@@ -1,5 +1,5 @@
-import test.Dict;
-import test.Pair;
+import src.DictOA;
+import src.DictRE;
 
 import java.util.Arrays;
 
@@ -37,7 +37,7 @@ public class Main {
 
         // TEst
         System.out.println("----------------------");
-        Dict<String, Integer> d = new Dict<>();
+        DictOA<String, Integer> d = new DictOA<>();
         d.add("Test", 123);
         d.add("Other", 13);
         d.add("dsf", 324);
@@ -50,16 +50,22 @@ public class Main {
         System.out.println("Keys: " + d.keys());
         System.out.println("Keys: " + d.values());
 
-        Pair<String, Integer>[] pair = new Pair[8];
-        pair[3] = new Pair<>("sdsd", 1323);
-        pair[6] = new Pair<>("askdfj", 2323);
-        Pair<String, Integer> p = pair[3];
-        p = null;
+        System.out.println("----------------------");
+        DictRE<String, Integer> sd = new DictRE<>();
+        sd.add("Test", 123);
+        sd.add("Other", 13);
+        sd.add("dsf", 324);
+        sd.add("Test", 321);
+        sd.remove("dsf");
+        System.out.println(sd.get("Test"));
+        System.out.println(sd.get("sdsd"));
+        System.out.println();
+        sd.debug();
+        System.out.println("Keys: " + sd.keys());
+        System.out.println("Keys: " + sd.values());
 
-        Pair<String, Integer> o = pair[6];
-        o.setValue(0123333);
-
-
-        System.out.println(Arrays.toString(pair));
+        int[] a = {1, 4, 1};
+        System.out.println(Arrays.toString(a));
+        System.out.println(sd);
     }
 }
