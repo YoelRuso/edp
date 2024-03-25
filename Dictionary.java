@@ -1,124 +1,124 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 public class Dictionary<K, V> {
-
-    private ArrayList<V> pairArrayList = new ArrayList<>();
-
-    private Pair<K, V>[] listDictionary;
-
-    private int empty_index = 0;
-
-    public Dictionary(K key, V value) {
-        this.listDictionary = new Pair[10];
-        insert(key, value);
-    }
+    private int size = 8;
+    private int[] indices;
+    private Object[] entries;
+    private int lastPos = 0;
 
     public Dictionary() {
-        this.listDictionary = new Pair[8];
+        indices = new int[size];
+        Arrays.fill(indices, -1);
+        entries = new Object[size];
     }
 
-    // Calcula el índice para una key que será añadida
-    /*
-    private int calculateIndex(K key) {
-        // Implementación de la función hash
-        // int hash = Math.abs(key.hashCode());
-        int index = 0;
-        while (listDictionary[index] != null) {
-            if(listDictionary[index].getKey() == key){
-                break;
+    public void add(K key, V value) {
+        // TODO: resize
+        int pos = hash(key);
+        while (indices[pos] != -1) {
+            // Check if repeated
+            if (indices[pos] != -2) {
+                Pair<K, V> pair = (Pair<K, V>) entries[indices[pos]];
+                if (pair.getKey() == key) {
+                    pair.setValue(value);
+                    return;
+                }
             }
-            index += 1;
+            pos++;
         }
-        return index;
-    }
-    */
+        // TODO: CHeck if repeated
+        entries[lastPos] = new Pair<>(key, value);
 
-
-    // Encuentra el índice de una key que ya existe
-    private int findIndex(K key){
-        boolean found = false;
-        int index = -1;
-        for(int i = 0; i < listDictionary.length && !found; i++){
-            if(listDictionary[i].getKey() == key){
-                found = true;
-                index = i;
-            }
-        }
-        return index;
-    }
-
-    //método para insertar
-    public boolean insert(K key, V value) {
-        listDictionary[empty_index] = new Pair<K,V>(key, value);
-        empty_index++;
-        return true;
-    }
-
-
-    // Este metodo simplemente elimina el valor especificado por parametro
-    public boolean remove(K key) {
-        int index = findIndex(key);
-        System.out.println(index);
-        listDictionary[index] = null;
-        if(index < listDictionary.length-1){
-            for (int i = index; i < listDictionary.length-1; i++){
-                listDictionary[i] = listDictionary[i+1];
-            }
-            listDictionary[listDictionary.length-1] = null;
-        }
-        empty_index--;
-        return true;
+        indices[pos] = lastPos;
+        lastPos++;
     }
 
     public V get(K key) {
-        int index = findIndex(key);
-        return listDictionary[index].getValue();
+        int pos = hash(key);
+        if (pos == -1) {
+            return null;
+        }
+        int i = indices[pos];
+        Pair<K, V> pair = (Pair<K, V>) entries[i];
+        if (pair.getKey() != key) {
+            return null;
+        }
+        return pair.getValue();
+    }
+
+    public void remove(K key) {
+        int pos = hash(key);
+        while (indices[pos] != -1 && pos < size) {
+            if (indices[pos] != -2) {
+                Pair<K, V> pair = (Pair<K, V>) entries[indices[pos]];
+                if (pair.getKey() == key) {
+                    entries[indices[pos]] = null;
+                    indices[pos] = -2;
+                    return;
+
+                }
+            }
+            pos++;
+        }
+    }
+    public Collection<K> keys() {
+        ArrayList<K> list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            if (entries[i] != null) {
+                Pair<K, V> pair = (Pair<K, V>) entries[i];
+                list.add(pair.getKey());
+            }
+        }
+        return list;
+    }
+
+    public Collection<V> values() {
+        ArrayList<V> list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            if (entries[i] != null) {
+                Pair<K, V> pair = (Pair<K, V>) entries[i];
+                list.add(pair.getValue());
+            }
+        }
+        return list;
+    }
+    public int hash(K key) {
+        return key.hashCode() % size;
+    }
+
+    public void debug() {
+        System.out.println(Arrays.toString(indices));
+        System.out.println("[");
+        for (int i = 0; i < size; i++) {
+            if (entries[i] == null) {
+                System.out.println(i + ": ---");
+            } else {
+                System.out.println(i + ": " + entries[i].toString()+ ", ");
+            }
+        }
+        System.out.println("]");
     }
 
     public boolean isEmpty() {
-        for (int i = 0; listDictionary.length > i; i++) {
-            if (listDictionary[i] != null) {
+        for (int i = 0; i < size; i++) {
+            if (indices[i] != -1 && indices[i] != -2) {
                 return false;
             }
         }
         return true;
     }
 
-    // ¿Se podía usar el arrayList o no?
-    public ArrayList<V> values() {
-        pairArrayList.clear(); // Clear the list to avoid duplicates on subsequent calls.
-        for (Pair<K, V> pair : listDictionary) {
-            if (pair != null) {
-                pairArrayList.add(pair.getValue());
+    public boolean popItem() {
+        for (int i = size - 1; i >= 0; i--) {
+            if (indices[i] != -1 && indices[i] != -2) {
+                entries[indices[i]] = null;
+                indices[i] = -2;
+                return true;
             }
         }
-        return pairArrayList;
+        return false; // No hay elementos para sacar
     }
 
-    public Pair<K, V> popItem() {
-        listDictionary[empty_index-1] = null;
-        empty_index--;
-        return listDictionary[empty_index-1];
-    }
-
-    public void update(K key, V value){
-        int index = findIndex(key);
-
-        // Comprobamos si el elemento se encuentra dentro del diccionario
-        if (listDictionary[index].getKey().equals(key)) {
-            // Si está dentro, solo se actualiza el value
-            listDictionary[index] = new Pair<>(key, value);
-        } else {
-            // Si la clave no se encuentra, se añadirá al final del diccionario
-            insert(key, value);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Dictionary{" +
-                "listDictionary=" + Arrays.toString(listDictionary) +
-                '}';
-    }
 }
