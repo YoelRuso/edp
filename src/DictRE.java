@@ -1,8 +1,7 @@
 package src;
-// dict remake
+
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class DictRE<K, V> {
@@ -32,6 +31,7 @@ public class DictRE<K, V> {
             resize();
         }
         int hashcode = key.hashCode();
+        System.out.println(hashcode % size);
         int pos = find(hashcode % size, key);
         if (indices[pos] != -1) {
             Pair<K, V> pair = entries[indices[pos]];
@@ -59,19 +59,23 @@ public class DictRE<K, V> {
     // Finds the pos of the
     private int find(int start, K key) {
         // TODO: full circle
-        while (indices[start] % size != -1) {
-            if (entries[indices[start]].getKey() == key) {
+        System.out.println("Find: " + start);
+        System.out.println("Size: " + size);
+        while (indices[start % size] != -1) {
+            System.out.println(start % size);
+            if (indices[start % size] != -2 && entries[indices[start % size]].getKey() == key) {
                 break;
             }
             start++;
         }
-        return start;
+        return start % size;
     }
     public void resize() {
         int newSize = size * 2;
         // TODO
         // fill holes
         // Save hashcode in Pair (avoids having to recalculate)
+        System.out.println("New size: " + newSize);
         Pair<K, V>[] newEntries = new Pair[newSize];
         int[] newIndices = new int[newSize];
         Arrays.fill(newIndices, -1);
@@ -81,10 +85,13 @@ public class DictRE<K, V> {
 
                 Pair<K, V> pair = entries[i];
                 int pos = pair.getHashcode() % newSize;
-                while (newIndices[pos] != -1) {
+
+                while (newIndices[pos % newSize] != -1) {
+                    System.out.println("First " + pos);
                     pos++;
                 }
-                newIndices[pos] = i;
+                System.out.println("After: " + pos);
+                newIndices[pos % newSize] = i;
             }
         }
         entries = newEntries;
