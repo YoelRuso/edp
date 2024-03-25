@@ -87,6 +87,8 @@ public class DictRE<K, V> {
                 newIndices[pos] = i;
             }
         }
+        entries = newEntries;
+        indices = newIndices;
         size = newSize;
     }
 
