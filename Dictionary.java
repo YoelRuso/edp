@@ -14,6 +14,12 @@ public class Dictionary<K, V> {
         entries = new Object[size];
     }
 
+    public Dictionary(K key, V value) {
+        this(); // Llama al constructor sin argumentos para inicializar el diccionario
+        add(key, value);
+    }
+
+
     public void add(K key, V value) {
         // TODO: resize
         int pos = hash(key);
