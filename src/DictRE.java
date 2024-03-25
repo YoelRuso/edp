@@ -135,11 +135,18 @@ public class DictRE<K, V> {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
+        boolean first = true;
+
         for (int i = 0; i < size; i++) {
             if (entries[i] != null) {
-                str.append(entries[i].toString()).append(", ");
+                if (!first) {
+                    str.append(", ");
+                } else {
+                    first = false;
+                }
+                str.append(entries[i].toString());
             }
         }
-        return "[" + str + "]";
+        return "{" + str + "}";
     }
 }
