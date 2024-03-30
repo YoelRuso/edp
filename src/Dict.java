@@ -163,21 +163,14 @@ public class Dict<K, V> {
         }
         System.out.println("]");
     }
+
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        boolean first = true;
-
-        for (int i = 0; i < size; i++) {
-            if (entries[i] != null) {
-                if (!first) {
-                    str.append(", ");
-                } else {
-                    first = false;
-                }
-                str.append(entries[i].toString());
-            }
-        }
+        String str = Arrays
+                .stream(entries)
+                .filter(Objects::nonNull)
+                .map(Pair::toString)
+                .collect(Collectors.joining(", "));
         return "{" + str + "}";
     }
 }

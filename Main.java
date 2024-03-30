@@ -110,5 +110,6 @@ public class Main {
 
         // Mostrar todas las claves
         System.out.println("Keys: " + dictionary.keys());  // Debería imprimir "[apple, grape, orange, strawberry, pear, reap]"
+        System.out.println(dictionary);
     }
 }
