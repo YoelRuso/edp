@@ -1,16 +1,16 @@
-import src.DictOA;
-import src.DictRE;
-
-import java.util.Arrays;
+import src.Dict;
 
 public class Main {
 
     public static void main(String[] args) {
         // Crear una instancia de DictRE
 
+        int a = 1;
+        System.out.println(a << 1);
+        System.out.println(a << 2);
 
-        DictRE<String, Integer> dict = new DictRE<>();
-
+        Dict<String, Integer> dict = new Dict<>(9);
+        System.out.println(dict.keys());
         // Añadir elementos
         dict.add("one", 1);
         dict.add("two", 2);
@@ -18,8 +18,38 @@ public class Main {
         dict.add("four", 4);
         dict.add("five", 5);
 
-        dict.remove("five");
-        dict.popItem();
+        dict.pop("five");
+        dict.pop("one");
+        dict.pop("two");
+        dict.pop("three");
+        dict.pop("four");
+        dict.pop("five");
+        dict.add("d", 12);
+        dict.pop("d");
+
+
+        dict.add("d", 12);
+        dict.pop("d");
+        dict.add("d", 12);
+        dict.pop("d");
+        dict.add("d", 12);
+        dict.pop("d");
+        dict.add("d", 12);
+        dict.pop("d");
+        dict.add("d", 12);
+        dict.pop("d");
+
+        dict.add("d", 12);
+        dict.pop("d");
+        dict.add("d", 12);
+        dict.pop("d");
+        dict.add("d", 12);
+        dict.pop("d");
+        dict.add("d", 12);
+        dict.pop("d");
+
+        dict.popitem();
+
         // Mostrar el contenido del diccionario
         System.out.println("Contenido del diccionario:");
         System.out.println(dict);
@@ -28,7 +58,7 @@ public class Main {
         System.out.println("Valor asociado a 'three': " + dict.get("three"));
 
         // Eliminar un elemento
-        dict.remove("four");
+        dict.pop("four");
         System.out.println("Contenido del diccionario después de eliminar 'four':");
         System.out.println(dict);
 
@@ -44,7 +74,7 @@ public class Main {
         System.out.println("Información de depuración:");
         dict.debug();
         // Crear una instancia de DictRE
-        DictRE<String, String> dictionary = new DictRE<>();
+        Dict<String, String> dictionary = new Dict<>();
 
         // Agregar elementos al diccionario
         dictionary.add("apple", "red");
@@ -59,7 +89,7 @@ public class Main {
         System.out.println("Value for grape: " + dictionary.get("grape"));  // Debería imprimir "purple"
 
         // Eliminar un elemento del diccionario
-        dictionary.remove("banana");
+        dictionary.pop("banana");
 
         // Obtener elementos después de la eliminación
         System.out.println("Value for banana after removal: " + dictionary.get("banana"));  // Debería imprimir "null"

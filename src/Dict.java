@@ -3,31 +3,47 @@ package src;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-public class DictRE<K, V> {
+public class Dict<K, V> {
     private int size = 8;
     private int[] indices;
     private Pair<K, V>[] entries;
     private int lastPos = 0;
-    private double LOAD_FACTOR = 0.75;
+    private double loadFactor = 0.75;
 
-    public DictRE() {
+    // TODO: validate
+    public Dict() {
         indices = new int[size];
         Arrays.fill(indices, -1);
         entries = (Pair<K, V>[]) new Pair[size];
     }
 
-    public DictRE(int capacity) {
-        indices = new int[(size = capacity)];
+    public Dict(int capacity) {
+        size = closestPowerOfTwo(capacity);
+        indices = new int[size];
+
         Arrays.fill(indices, -1);
         entries = (Pair<K, V>[]) new Pair[size];
     }
+
+    public Dict(int capacity, double loadFactor) {
+        size = closestPowerOfTwo(capacity);
+        indices = new int[size];
+
+        Arrays.fill(indices, -1);
+        entries = (Pair<K, V>[]) new Pair[size];
+        this.loadFactor = loadFactor;
+    }
+
     public void add(K key, V value) {
-        if ((double) lastPos / size >= LOAD_FACTOR) {
+        if ((double) lastPos / size >= loadFactor) {
             resize();
         }
+
         int hashcode = key.hashCode();
-        int pos = find(Math.abs(hashcode) % size, key);
+        int pos = findKeyOrEmpty(adjustSize(hashcode), key);
+
         if (indices[pos] != -1) {
             Pair<K, V> pair = entries[indices[pos]];
             pair.setValue(value);
@@ -38,55 +54,60 @@ public class DictRE<K, V> {
         }
     }
     public V get(K key) {
-        int hash = Math.abs(hash(key));
-        int pos = find(hash, key);
+        int pos = findKeyOrEmpty(adjustSize(key.hashCode()), key);
+
+        // maybe raise exception like python
         if (indices[pos] == -1) {
             return null;
-        } else if (indices[pos] < 0) {
-            // Ajustar el índice si es negativo
-            pos = (pos + indices.length) % indices.length;
         }
         return entries[indices[pos]].getValue();
     }
-    public void remove(K key) {
-        int pos = find(Math.abs(hash(key)), key);
+    public void pop(K key) {
+        int pos = findKeyOrEmpty(adjustSize(key.hashCode()), key);
+
+
         if (indices[pos] != -1) {
             entries[indices[pos]] = null;
             indices[pos] = -2;
         }
     }
-    // Finds the pos of the
-    private int find(int start, K key) {
-        // TODO: full circle
+
+    // TODO: check performance over if statement
+    private int adjustSize(int value) {
+        return value & (size - 1);
+    }
+
+    // TODO: check performance
+    private int findKeyOrEmpty(int start, K key) {
         while (indices[start] != -1) {
-            if (indices[start] != -2  && entries[indices[start]].getKey().equals(key)) {
+            if (indices[start] != -2  && entries[indices[start]].getKey() == key) {
                 break;
             }
-            start++;
-            if (start >= size) {
-                start = 0;  // Volvemos al principio del arreglo circular
-            }
+            start = adjustSize(++start);
         }
         return start;
     }
 
     public void resize() {
-        int newSize = size * 2;
-        // TODO
-        // fill holes
-        // Save hashcode in Pair (avoids having to recalculate)
+        int newSize = size << 1;
+
         Pair<K, V>[] newEntries = new Pair[newSize];
         int[] newIndices = new int[newSize];
         Arrays.fill(newIndices, -1);
+
+        int last = 0;
         for (int i = 0; i < size; i++) {
             if (entries[i] != null) {
-                newEntries[i] = entries[i];
+                newEntries[last] = entries[i];
+                last++;
+
                 Pair<K, V> pair = entries[i];
-                int pos = pair.getHashcode() & (newSize - 1);
-                while (newIndices[pos % newSize] != -1) {
-                    pos++;
+                int pos = adjustSize(pair.getHashcode());
+
+                while (newIndices[pos] != -1) {
+                    pos = adjustSize(++pos);
                 }
-                newIndices[pos % newSize] = i;
+                newIndices[pos] = i;
             }
         }
         entries = newEntries;
@@ -94,11 +115,13 @@ public class DictRE<K, V> {
         size = newSize;
     }
 
-    public int hash(K key) {
-        return key.hashCode() % size;
+    private int closestPowerOfTwo(int n) {
+        int highestBit = Integer.highestOneBit(n);
+        return (n == highestBit) ? n : highestBit << 1;
     }
 
-    public Pair<K, V> popItem() {
+    // TODO: improve popItem
+    public Pair<K, V> popitem() {
         // check if last is null
         while (lastPos >= 0 && entries[lastPos] == null) {
             lastPos--;
@@ -106,20 +129,28 @@ public class DictRE<K, V> {
         if (lastPos < 0) {
             return null;
         }
-        int pos = find(hash(entries[lastPos].getKey()) & (size - 1), entries[lastPos].getKey());
-        indices[pos] = -2;
         Pair<K, V> pair = entries[lastPos];
+        int pos = findKeyOrEmpty(adjustSize(pair.getHashcode()), pair.getKey());
+        indices[pos] = -2;
         entries[lastPos] = null;
         lastPos++;
         return pair;
     }
 
     public Collection<K> keys() {
-        return Arrays.stream(entries).filter(Objects::nonNull).map(Pair::getKey).toList();
+        return Arrays.stream(entries)
+                .filter(Objects::nonNull)
+                .map(Pair::getKey)
+                .collect(Collectors.toList());
     }
     public Collection<V> values() {
-        return Arrays.stream(entries).filter(Objects::nonNull).map(Pair::getValue).toList();
+        return Arrays
+                .stream(entries)
+                .filter(Objects::nonNull)
+                .map(Pair::getValue)
+                .collect(Collectors.toList());
     }
+
     public void debug() {
         System.out.println(Arrays.toString(indices));
         System.out.println("[");
