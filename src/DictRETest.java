@@ -72,5 +72,22 @@ public class DictRETest {
         assertFalse(dict.values().contains(4));
     }
 
+    @Test
+    public void testPopItems(){
+        DictRE<String, Integer> dict = new DictRE<>();
+        dict.add("one", 1);
+        dict.add("two", 2);
+        dict.add("three", 3);
+
+        assertTrue(dict.values().contains(1));
+        assertTrue(dict.values().contains(2));
+        assertTrue(dict.values().contains(3));
+
+        dict.popItem();
+
+        assertFalse(dict.values().contains(3));
+
+    }
+
 
 }
