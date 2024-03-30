@@ -9,7 +9,7 @@ public class Main {
         System.out.println(a << 1);
         System.out.println(a << 2);
 
-        Dict<String, Integer> dict = new Dict<>(9);
+        Dict<String, Integer> dict = new Dict<>();
         System.out.println(dict.keys());
         // Añadir elementos
         dict.add("one", 1);

@@ -10,6 +10,7 @@ public class Dict<K, V> {
     private int[] indices;
     private Pair<K, V>[] entries;
     private int lastPos = 0;
+    private int used = 0;
     private double loadFactor = 0.75;
 
     // TODO: validate
@@ -51,6 +52,7 @@ public class Dict<K, V> {
             entries[lastPos] = new Pair<>(key, value, hashcode);
             indices[pos] = lastPos;
             lastPos++;
+            used++;
         }
     }
     public V get(K key) {
@@ -69,6 +71,7 @@ public class Dict<K, V> {
         if (indices[pos] != -1) {
             entries[indices[pos]] = null;
             indices[pos] = -2;
+            used--;
         }
     }
 
@@ -89,7 +92,12 @@ public class Dict<K, V> {
     }
 
     public void resize() {
-        int newSize = size << 1;
+        int newSize;
+        if ((double) used / size > loadFactor) {
+            newSize = size << 1;
+        } else {
+            newSize = size;
+        }
 
         Pair<K, V>[] newEntries = new Pair[newSize];
         int[] newIndices = new int[newSize];
@@ -113,6 +121,7 @@ public class Dict<K, V> {
         entries = newEntries;
         indices = newIndices;
         size = newSize;
+        lastPos = last + 1;
     }
 
     private int closestPowerOfTwo(int n) {
@@ -134,6 +143,7 @@ public class Dict<K, V> {
         indices[pos] = -2;
         entries[lastPos] = null;
         lastPos++;
+        used--;
         return pair;
     }
 
@@ -164,6 +174,7 @@ public class Dict<K, V> {
         System.out.println("]");
     }
 
+    // python prints string with quotes ''
     @Override
     public String toString() {
         String str = Arrays
